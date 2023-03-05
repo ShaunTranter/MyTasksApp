@@ -1,0 +1,382 @@
+*{
+font-family: 'Exo 2', sans-serif;
+font-family: 'Fira Sans', sans-serif;
+}
+
+body{
+    background: #212121;
+}
+
+.toggle-button{
+    position: absolute;
+    right:0;
+    top:10px;
+
+    height: 25px;
+    display: inline-block;
+    text-align: center;
+    font-size: 0.7rem;
+    justify-content: center;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 23px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+
+
+  .title-con{
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    }
+    
+    
+    .title-con h1{
+        font-weight: 800;
+        font-size: 6rem;
+        padding: 10px;
+        margin: 10px auto 5px auto;
+
+        background:  linear-gradient(45deg,#ffbc00,#ff0058);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        width:40%;
+    }
+
+    .title-con h3{
+        font-weight: 600;
+        font-size: 1.4rem;
+        padding: 10px;
+        margin: 2px auto 10px auto;
+
+        background:  linear-gradient(45deg,#00f7ff,#2600ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        width:40%;
+    }
+
+    .toDo__input-con{
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .toDo__text {
+        /* change with toggle */
+        color: white;
+        background-color: #212121;
+        width: 280px;
+        height: 20px;
+        padding: 10px;
+        /* text-align: center; */
+        border: 2px solid white;
+        border-radius: 20px;
+        /* box-shadow: 3px 3px 2px rgb(249, 255, 85); */
+      }
+      
+      .toDo__text:focus {
+        color: rgb(252, 185, 0);
+        background-color: #212121;
+        outline-color:  rgb(252, 185, 0);
+        box-shadow: -3px -3px 15px  rgb(252, 185, 0);
+        transition: .1s;
+        transition-property: box-shadow;
+      }
+
+    
+      .main-btn{
+        position: relative;
+        padding: 10px 20px;
+        border-radius: 7px;
+        border: 1px solid  rgb(252, 185, 0);
+        font-size: 14px;
+        text-transform: uppercase;
+        font-weight: 600;
+        letter-spacing: 2px;
+        background: transparent;
+        color: #fff;
+        overflow: hidden;
+        box-shadow: 0 0 0 0 transparent;
+        -webkit-transition: all 0.2s ease-in;
+        -moz-transition: all 0.2s ease-in;
+        transition: all 0.2s ease-in;
+      }
+      
+      .main-btn:hover {
+        background: linear-gradient(45deg,#ffbc00,#ff0058);
+        box-shadow: 0 0 30px 5px  rgb(252, 185, 0);
+        -webkit-transition: all 0.2s ease-out;
+        -moz-transition: all 0.2s ease-out;
+        transition: all 0.2s ease-out;
+      }
+      
+      .main-btn:hover::before {
+        -webkit-animation: sh02 0.5s 0s linear;
+        -moz-animation: sh02 0.5s 0s linear;
+        animation: sh02 0.5s 0s linear;
+      }
+      
+      .main-btn::before {
+        content: '';
+        display: block;
+        width: 0px;
+        height: 86%;
+        position: absolute;
+        top: 7%;
+        left: 0%;
+        opacity: 0;
+        background: #fff;
+        box-shadow: 0 0 50px 30px #fff;
+        -webkit-transform: skewX(-20deg);
+        -moz-transform: skewX(-20deg);
+        -ms-transform: skewX(-20deg);
+        -o-transform: skewX(-20deg);
+        transform: skewX(-20deg);
+      }
+      
+      @keyframes sh02 {
+        from {
+          opacity: 0;
+          left: 0%;
+        }
+      
+        50% {
+          opacity: 1;
+        }
+      
+        to {
+          opacity: 0;
+          left: 100%;
+        }
+      }
+      
+      button:active {
+        box-shadow: 0 0 0 0 transparent;
+        -webkit-transition: box-shadow 0.2s ease-in;
+        -moz-transition: box-shadow 0.2s ease-in;
+        transition: box-shadow 0.2s ease-in;
+      }
+
+ .TD__list-con{
+    display: flex;
+    margin-top:30px;
+ }
+
+.TD__list-item{
+position: relative;
+width:350px;
+margin: 20px;
+box-shadow: 10px 10px 30px  rgba(252, 185, 0, 0.61);
+border-radius: 20px;
+overflow: hidden;
+background: linear-gradient(45deg,#ffbb006c,#ff00007a);
+z-index: 5;
+padding: 20px;
+}
+
+.TD__title{
+    text-align: center;
+    font-size: 1.5rem;
+    color: white;
+    margin: 5px 0 15px 0;
+}
+
+.TD__date{
+margin:0 auto;
+width: 60%;
+font-size: 1rem;
+color: white;
+padding-bottom:2px ;
+}
+
+.break{
+    height: 2px;
+    border-radius: 0px 0px 20px 20px;
+    width: 80%;
+    background:#212121;
+    margin:0 auto;
+
+}
+
+.TD__item--btn-con{
+    margin: 10px auto 10px auto;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.td-btn{
+    position: relative;
+    padding: 10px 30px;
+    border-radius: 7px;
+    border: 1px solid  rgb(252, 185, 0);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 2px;
+    background: transparent;
+    color: #fff;
+    overflow: hidden;
+    box-shadow: 0 0 0 0 transparent;
+    -webkit-transition: all 0.2s ease-in;
+    -moz-transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in;
+  }
+
+  .td-btn:hover {
+    background: linear-gradient(45deg,#ffbc00,#ff0058);
+    box-shadow: 0 0 30px 5px  rgb(252, 185, 0);
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+    padding-right: 5.2rem;
+    padding-left: 1rem;
+  }
+  
+  .td-btn:hover::before {
+    -webkit-animation: sh02 0.5s 0s linear;
+    -moz-animation: sh02 0.5s 0s linear;
+    animation: sh02 0.5s 0s linear;
+  }
+  
+  .td-btn::before {
+    content: '';
+    display: block;
+    width: 0px;
+    height: 86%;
+    position: absolute;
+    top: 7%;
+    left: 0%;
+    opacity: 0;
+    background: #fff;
+    box-shadow: 0 0 50px 30px #fff;
+    -webkit-transform: skewX(-20deg);
+    -moz-transform: skewX(-20deg);
+    -ms-transform: skewX(-20deg);
+    -o-transform: skewX(-20deg);
+    transform: skewX(-20deg);
+  }
+
+  .td-btn span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.4s;
+    font-size: 0.8rem;
+   }
+   
+   .td-btn .add-span:after {
+    content: 'Add Note';
+    position: absolute;
+    opacity: 0;
+    top: -12px;
+    right: -20px;
+    transition: 0.2s;
+   }
+   
+   
+   .td-btn:hover .add-span:after {
+    opacity: 4;
+    right: -80px;
+   }
+
+   .td-btn .com-span:after {
+    content: 'Complete';
+    position: absolute;
+    opacity: 0;
+    top: -12px;
+    right: -20px;
+    transition: 0.2s;
+   }
+   
+   
+   .td-btn:hover .com-span:after {
+    opacity: 4;
+    right: -80px;
+   }
+  
+
+   .td-btn .del-span:after {
+    content: 'Delete Task';
+    position: absolute;
+    opacity: 0;
+    top: -17px;
+    right: -20px;
+    transition: 0.2s;
+   }
+   
+   
+   .td-btn:hover .del-span:after {
+    opacity: 4;
+    right: -80px;
+   }
+  
+  
+  .td-btn:active {
+    box-shadow: 0 0 0 0 transparent;
+    -webkit-transition: box-shadow 0.2s ease-in;
+    -moz-transition: box-shadow 0.2s ease-in;
+    transition: box-shadow 0.2s ease-in;
+  }
+
+
+.break-2{
+    height: 2px;
+    border-radius: 0px 0px 20px 20px;
+    width: 95%;
+    background:#212121;
+    margin:0 auto;
+
+}
+
+.notes__List-item--selected{
+    background: blue;
+}
+
+
+
+.display-none{
+    display: none;
+}
