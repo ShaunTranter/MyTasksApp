@@ -1,3 +1,7 @@
+// The view class controls what goes onto the page based on the information its given.
+// all button events occur on this page which will tell toDo.js what to do.
+// root is used to control the path, any refernce to root is refering to this page (in short)
+// root html is what the page will load on page load.
 export default class ToDoView{
     constructor(root,{ onNoteSelect,onNoteAdd,onNoteEdit,onNoteDelete,onToDoAdd,onToDoDelete,onToDoComplete,onNoteChange}={}){
         this.root = root;
@@ -55,22 +59,22 @@ export default class ToDoView{
     </div>
 ` ;   
 
- 
+ // define the main input boxes and buttons
  const titleInp = this.root.querySelector(".notes__title");
  const bodyInp = this.root.querySelector(".notes__body");
  
  const btnAddToDo =this.root.querySelector(".toDo__add");
 
 
-
+// sends "add ToDo" event with the input to the ToDo.js file
  btnAddToDo.addEventListener("click",() =>{
      const title = this.root.querySelector(".toDo__text").value;
-     //console.log(title);
      this.onToDoAdd(title);
  })
 
  const btnEdit=this.root.querySelector(".notes__save");
 
+// sends "edit note" event with inputs to the ToDo.js file
      btnEdit.addEventListener("click",()=>{
          const updatedTitle = titleInp.value.trim();
          const updatedBody = bodyInp.value.trim();
@@ -78,10 +82,9 @@ export default class ToDoView{
          this.onNoteEdit(updatedTitle,updatedBody);
      });
  
+     // note carousel, sends either 1 or -1 to ToDo.js
      const btnCaraNext=this.root.querySelector(".notes__next");
      const btnCaraPre=this.root.querySelector(".notes__previous");
-
-
 
      btnCaraNext.addEventListener("click",()=>{
             const next = 1;
@@ -95,6 +98,8 @@ export default class ToDoView{
         this.onNoteChange(pre);
     });
 
+
+// These hide pop ups and the complete side bar, when the button is clicked, visability is updated
  this.updateVisability(false);
 
  const btnComp =this.root.querySelector(".toDo__show-comp");
@@ -113,7 +118,8 @@ btnCompClose.addEventListener("click",()=>{
 
     }
 
-
+// private classes are marked with _,
+// The below classes create each div for the information that is retrived back from ToDo.js
     _createToDoItemHTML(TDId,TDtitle,TDupdated){
         return `    
         <div class ="TD__list-item" "data-td-id="${TDId}">
@@ -183,16 +189,19 @@ btnCompClose.addEventListener("click",()=>{
           <div>` 
     }
 
+    // complete section function
     updateComplete(tds){
+        // tds are the objects that are sent to the function in an array
+        // we define the created html container above to put the info into
         const preCon = this.root.querySelector(".toDo__complete-preview");
         preCon.innerHTML ="";
-        console.log(tds);
 
+        // if there are no comepleted tasks
         if(tds.length == 0){
             const html = this._createCompMessageItemHTML();
             preCon.insertAdjacentHTML("afterbegin", html);
         }
-
+         // for each object in the array, create the html and insert it onto the page
         for(const td of tds){
             const html = this._createCompItemHTML(td.title,new Date(td.date),td.id);
             preCon.insertAdjacentHTML("afterbegin", html);
@@ -201,23 +210,21 @@ btnCompClose.addEventListener("click",()=>{
     }
 
     updateToDoList(tds){
-
+        // same method as above function for each task item 
        const tdListCon = this.root.querySelector(".TD__list-con");
        const notesListCon = this.root.querySelector(".notes__list");
 
-       const notesList = tdListCon.querySelector(".notes__list");
     
        tdListCon.innerHTML="";
 
        
-    
+          
        for(const td of tds){
         const html = this._createToDoItemHTML(td.id,td.title,new Date(td.updated));
-        //console.log(td)
-       // console.log(td.notes);
-        //const all = td.notes;
+
         tdListCon.insertAdjacentHTML("afterbegin",html);
-        
+        // second loop for each note object that is stored in an array of every task object
+        // the full object looks like this: tasks = {id:1, title:example, notes:[{id:1,title:note1,date:example}]}
         for(const note of td.notes){
             const noteHtml = this._createListItemHTML(note.id,note.title,note.body, new Date(note.updated),td.id);
             const notesList = tdListCon.querySelector(".notes__list");
@@ -235,25 +242,26 @@ btnCompClose.addEventListener("click",()=>{
 
        }
 
-       const newNotesList = tdListCon.querySelectorAll(".notes__list-item");
-       //console.log(newNotesList);
-
+       // every event for these created html divs has tp be defined within this function
+       // we used the defined container at the start of the function to select the created divs
+       // we use the dataset of the html div to retreive the id of the Task or note selected 
 
        tdListCon.querySelectorAll(`.notes__list-item`).forEach(Item =>{
         Item.addEventListener("click",()=>{
             this.onNoteSelect(Item.dataset.noteId,Item.dataset.tdId);
-
+          // sends "select note" event with the input to the ToDo.js file
 
               
         });
     
         Item.addEventListener("dblclick",()=>{
             const prompt = confirm("Are You Sure you want to delete this note?");
-            //console.log("click");
+   
     
             if(prompt){
-              // console.log(Item.dataset);
+
                this.onNoteDelete(Item.dataset.noteId,Item.dataset.tdId);
+               // sends "delete" event with the input to the ToDo.js file
             }
         })
     
@@ -265,6 +273,7 @@ btnCompClose.addEventListener("click",()=>{
         tdListCon.querySelectorAll(".toDo__del").forEach(Item =>{
             Item.addEventListener("click",()=>{
                 this.onToDoDelete(Item.dataset.tdId);
+                // sends "delete" event with the input to the ToDo.js file
             });
             
         });
@@ -273,6 +282,7 @@ btnCompClose.addEventListener("click",()=>{
         tdListCon.querySelectorAll(".toDo__comp").forEach(Item =>{
             Item.addEventListener("click",()=>{
                 this.onToDoComplete(Item.dataset.tdId);
+                // sends "complete" event with the input to the ToDo.js file
             });
             
         });
@@ -280,6 +290,7 @@ btnCompClose.addEventListener("click",()=>{
         tdListCon.querySelectorAll(".notes__add").forEach(Item =>{
             Item.addEventListener("click",()=>{
                 this.onNoteAdd(Item.dataset.tdId);
+                // sends "add note" event with the input to the ToDo.js file
             });
             
         });
@@ -289,9 +300,9 @@ btnCompClose.addEventListener("click",()=>{
        
     
     }
-
+// when we select a note, ToDo.js sends the information to the API to find the note 
+// we then call this function on ToDo.js with the note and task Id to update the view/ html
     updateActive(note,id){
-        //console.log(note);
         this.root.querySelector(".notes__title").value = note.title;
         this.root.querySelector(".notes__body").value = note.body;
 
@@ -317,7 +328,9 @@ btnCompClose.addEventListener("click",()=>{
     
     
     }
-    
+
+
+    // controls visabilty of classes 
     updateVisability(visable){
         this.root.querySelector(".notes__pre").style.visability = visable? "visable" : "hidden";
     
@@ -346,6 +359,7 @@ btnCompClose.addEventListener("click",()=>{
         }
     }
 
+    // after an edit, me must reselect the note that was edited 
     reselect(n,t){
         this.onNoteSelect(n,t);
 

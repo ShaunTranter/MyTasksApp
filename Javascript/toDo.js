@@ -3,12 +3,15 @@ import ToDoAPI from "./toDoAPI.js";
 
 export default class notes{
     constructor(root){
+      // since we dont know which note or task is active, each time one is selected, we save the id in actives
+      // we set null and empty varibles so we can keep updating the array with new informationt to send back and forth
         this.notes = [];
         this.tds =[];
         this.activeTd = null;
         this.active = null;
+        // when we want to update the view, we use this varible to call a function
         this.view = new ToDoView(root, this._handlers());
-// for all TD get notes\
+// sets all the new objects onto the view by using the below fucntions 
         this._refreshDos();
         this._refreshComp();
     }
@@ -46,7 +49,6 @@ export default class notes{
         this.active = note;
         this._setActiveTd(TdId);
 
-       // console.log(note);
     
        this.view.updateActive(note,TdId);
     }
@@ -54,7 +56,8 @@ export default class notes{
     _reselect(nId,TId){
       this.view.reselect(nId,TId);
     }
-
+// the handlers are called on the view, this controls which information is sent to the API in a given event
+// after the API is called, we have to update the view by calling refresh or active note
     _handlers(){
         return{
            onToDoAdd:title =>{
@@ -68,13 +71,10 @@ export default class notes{
            },
 
           onNoteSelect:(noteId,TdId) =>{
-            // needs to be full object, use api to get the note 
-            console.log(noteId);
-            
+ 
             const allNotes = ToDoAPI.getNotes(TdId);     
             const selectedNote = ToDoAPI.findNote(noteId,allNotes);
 
-           // console.log(selectedNote)
            this._refreshDos();
             
             this._setActiveNote(selectedNote,TdId);
@@ -91,8 +91,7 @@ export default class notes{
           },
           onNoteEdit:(title,body) =>{
 
-            console.log(this.activeTd);
-            console.log(this.active.id);
+
             ToDoAPI.editNote({
                 id:this.active.id,
                 title:title,
