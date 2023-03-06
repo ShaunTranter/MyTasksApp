@@ -10,13 +10,6 @@ export default class ToDoView{
         this.onNoteEdit = onNoteEdit;
         this.onNoteChange = onNoteChange;
         this.root.innerHTML = `        <div>
-        <div class ="toggle-button">
-        <label class="switch">
-          <input type="checkbox">
-         <span class="slider"></span>
-         </label>
-        <span>Light Mode</span>
-        </div>
         <div class="intro-con">
         <div class="title-con">
            <h1>My Tasks</h1>
@@ -43,17 +36,22 @@ export default class ToDoView{
     </div>
     </div>
     </div>
-    <div class="notes__pre">
-    <button class="notes__close" type="button"></button>
-    <button class="notes__previous" type="button">prew</button>
-      <input class ="notes__title" type="text" placeholder="Enter">
-      <textarea class="notes__body"></textarea>
-      <button class="notes__next" type="button">next</button>
-      <button class="notes__save" type="button"></button>
-    </div>
+    <button class ="toDo__comp-btn-close main-btn">></button>
     <div class="toDo__complete-preview">
     
-    </div>  
+    </div> 
+    </div>
+    <div class="notes__pre">
+      <input class ="notes__title" type="text" placeholder="Enter">
+      <div class ="break-2"></div>
+      <textarea class="notes__body"></textarea>
+      <button class="notes__save main-btn" type="button">Save Note</button>
+    </div>
+    <div id ="overlay" class ="overlay">
+    <button class="notes__close main-btn" type="button">x</button>
+    <button class="notes__previous main-btn" type="button"><</button>
+    <button class="notes__next main-btn" type="button">></button>
+    </div>
     </div>
 ` ;   
 
@@ -99,6 +97,18 @@ export default class ToDoView{
 
  this.updateVisability(false);
 
+ const btnComp =this.root.querySelector(".toDo__show-comp");
+ btnComp.addEventListener("click",()=>{
+    this.comVisability(true);
+});
+
+const btnCompClose =this.root.querySelector(".toDo__comp-btn-close");
+btnCompClose.addEventListener("click",()=>{
+   this.comVisability(false);
+});
+
+ this.comVisability(false);
+
 
 
     }
@@ -142,6 +152,7 @@ export default class ToDoView{
         return `
         <div class ="notes__list-item" data-note-id="${id}" data-td-id="${TDId}">
         <div class ="notes__small-title">${title}</div>
+        <div class ="break-2"></div>
         <div class ="notes__small-body">${body.substring(0, MAX_BODY_LENGTH)}
         ${body.length>MAX_BODY_LENGTH ? "..." :""}
         </div>
@@ -159,15 +170,28 @@ export default class ToDoView{
     _createCompItemHTML(title,date,TDId){
     
         return `
-        
+        <div class ="complete__item">
+        <i class="fa-solid fa-check comp__check"></i>
           <h2>${title}</h2>
-           <p>${date}</p>
-`
+           <p>${date.toLocaleString(undefined,{dateStyle:"full",timeStyle:"short"})}</p>
+        </div>` 
+    }
+
+    _createCompMessageItemHTML(){
+        return `   <div class ="msg">  
+          <h1 class="comp-msg">You Havent Completed Any Tasks Yet!</h1>
+          <div>` 
     }
 
     updateComplete(tds){
         const preCon = this.root.querySelector(".toDo__complete-preview");
         preCon.innerHTML ="";
+        console.log(tds);
+
+        if(tds.length == 0){
+            const html = this._createCompMessageItemHTML();
+            preCon.insertAdjacentHTML("afterbegin", html);
+        }
 
         for(const td of tds){
             const html = this._createCompItemHTML(td.title,new Date(td.date),td.id);
@@ -279,9 +303,10 @@ export default class ToDoView{
         this.root.querySelector(`.notes__list-item[data-note-id="${note.id}"][data-td-id="${id}"]`).classList.add("notes__List-item--selected");
         this.updateVisability(true);
         this.root.querySelectorAll(".notes__pre").forEach(child =>{
-            child.classList.remove("display-none");
+            child.classList.add("active");
         })
-    
+        this.root.querySelector(".overlay").classList.add("active")
+        
         const close = this.root.querySelector('.notes__close');
     
         close.addEventListener("click",()=>{
@@ -298,9 +323,26 @@ export default class ToDoView{
     
         if(!visable){
             this.root.querySelectorAll(".notes__pre").forEach(child =>{
-                child.classList.add("display-none");
+                child.classList.remove("active");
+                this.root.querySelector(".overlay").classList.remove("active")
             })
     
+        }
+    }
+
+
+    comVisability(visable){
+        this.root.querySelector(".toDo__complete-preview").style.visability = visable? "visable" : "hidden";
+        if(!visable){
+            this.root.querySelectorAll(".toDo__complete-preview").forEach(child =>{
+                child.classList.remove("active");
+            })
+            this.root.querySelector(".toDo__comp-btn-close").classList.remove("active")
+        }else{
+            this.root.querySelectorAll(".toDo__complete-preview").forEach(child =>{
+                child.classList.add("active");
+            })
+            this.root.querySelector(".toDo__comp-btn-close").classList.add("active")
         }
     }
 
